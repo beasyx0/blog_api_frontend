@@ -55,27 +55,17 @@ function Posts(props) {
       )}
       {!postsLoading && (
         <>
-          <Col xs={12} sm={12} md={12} lg={9} className={'m-auto pt-4'}>
+          <Col xs={12} sm={12} md={12} lg={6}>
             <h2 className={'mb-4 text-decoration-underline'}>Posts</h2>
             <PostFilter />
             {postsFromServer.map(post=>{
               return (
-                <div className={'mt-2 mb-4'}>
+                <div className={'mt-2 mb-5'}>
                   <Card className={`text-center ${userDetails.theme === 'dark' ? 'bg-dark' : 'bg-secondary'} text-light`}>
                     <Card.Header>Blog Post</Card.Header>
                     <Card.Body>
-                      <div className={'d-flex justify-content-center'}>
-                        <div className={'col-3'}>
-                          <img src={post.pic} alt="main post pic" className={'mb-3 w-100 rounded'} />
-                        </div>
-                        <div className={'col-9 p-1'}>
-                          <Card.Title>{post.title}</Card.Title>
-                          <Card.Text>{post.content}</Card.Text>
-                        </div>
-                      </div>
-                      <div className={''}>
-                        <Button variant="primary">Read Post</Button>
-                      </div>
+                      <Card.Title>{post.title}</Card.Title>
+                      <Button variant="primary">Read Post</Button>
                     </Card.Body>
                     <Card.Footer className="text-muted">posted: {post.date}</Card.Footer>
                   </Card>

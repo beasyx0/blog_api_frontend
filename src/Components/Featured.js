@@ -4,6 +4,7 @@ import {useHistory, useLocation} from 'react-router-dom';
 import { useAuthDispatch, useAuthState, checkAndSetTheme, checkAuthRedirect } from '../Context'
 
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -52,25 +53,23 @@ function Featured(props) {
         </div>
       )}
       {!featuredLoading && (
-        <>
-        <h2 className={'mb-4 text-decoration-underline'}>Featured</h2>
-        {featuredPostsFromServer.map(post=>{
-          return (
-            <Col xs={12} sm={12} md={9} lg={3} className={'m-auto'}>
-              <Card className={`text-center ${userDetails.theme === 'dark' ? 'bg-dark' : 'bg-secondary'} text-light`}>
-                <Card.Header>Featured</Card.Header>
-                <Card.Body>
-                  <img src={post.pic} alt="main post pic" className={'mb-3 w-100 rounded'} />
-                  <Card.Title>{post.title}</Card.Title>
-                  <Card.Text>{post.content}</Card.Text>
-                  <Button variant="primary">Read Post</Button>
-                </Card.Body>
-                <Card.Footer className="text-muted">posted: {post.date}</Card.Footer>
-              </Card>
-              <hr />
-            </Col>
-          );
-        })}
+          <>
+          <h2 className={'mb-4 text-decoration-underline'}>Featured</h2>
+          {featuredPostsFromServer.map(post=>{
+            return (
+              <Col xs={12} sm={12} md={12} lg={3}>
+                <Card className={`mb-5 ${userDetails.theme === 'dark' ? 'bg-dark' : 'bg-secondary'} text-center text-light`}>
+                  <Card.Header>Featured</Card.Header>
+                  <Card.Body>
+                    <img src={post.pic} alt="main post pic" className={'mb-3 w-100 rounded'} />
+                    <Card.Title>{post.title}</Card.Title>
+                    <Button variant="primary">Read Post</Button>
+                  </Card.Body>
+                  <Card.Footer className="text-muted">posted: {post.date}</Card.Footer>
+                </Card>
+              </Col>
+            );
+          })}
         </>
       )}
     </>

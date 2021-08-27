@@ -11,7 +11,7 @@ function MyLoader(props) {
 
   return (
       <>
-        {JSON.stringify(userDetails.loading) === 'true' && (
+        {userDetails.loading && (
           <div className={'mt-5 pt-5 text-center'}>
             <Loader type="Rings" color="#00BFFF" height={80} width={80} />
           </div>

@@ -34,12 +34,7 @@ function PostFilter(props) {
     },
   ]
 
-  useEffect(() => {
-
-  }, []);
-
   return (
-    <>
       <div className={'mb-4'}>
         {linksObjs.map(obj=>{
           return (
@@ -47,7 +42,6 @@ function PostFilter(props) {
           );
         })}
       </div>
-    </>
   );
 }
 

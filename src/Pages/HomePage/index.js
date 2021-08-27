@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, Fragment} from 'react'
 import {useHistory, useLocation} from 'react-router-dom';
 
 import { useAuthDispatch, useAuthState, checkAndSetTheme, checkAuthRedirect } from '../../Context';
@@ -40,19 +40,29 @@ function HomePage(props) {
   return (
     <Container fluid className={'pt-5 pb-5 text-center'}>
       <MyLoader />
-      <Row>
-        <Header />
-      </Row>
-      <Messages />
-      <Row className={'min-vh-50'}>
-        {userDetails.loading === false && (
-          <Featured />
-        )}
-      </Row>
-      <Row>
-        <Posts />
-        <Tags />
-      </Row>
+          <Row>
+            <Header />
+          </Row>
+          {!userDetails.loading && (
+            <>
+              <Messages />
+              <Row className={'min-vh-50'}>
+                <Col xs={12} sm={12} md={10} lg={10} className={'m-auto'}>
+                  <Row className={'pt-4 d-flex justify-content-center'}>
+                    <Featured />
+                  </Row>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={12} sm={12} md={10} lg={10} className={'m-auto'}>
+                  <Row className={'pt-4 d-flex justify-content-center'}>
+                    <Posts />
+                    <Tags />
+                  </Row>
+                </Col>
+              </Row>
+            </>
+          )}
     </Container>
   );
 }

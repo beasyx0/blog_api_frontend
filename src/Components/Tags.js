@@ -6,10 +6,14 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 
+import Loader from 'react-loader-spinner';
+
 
 function Tags(props) {
 
   const userDetails = useAuthState()
+
+  const [tagsLoading, setTagsLoading] = useState(true)
 
   const tagObjs = [
     {
@@ -50,20 +54,27 @@ function Tags(props) {
   ]
 
   useEffect(() => {
-
-  }, []);
+    setTimeout(setTagsLoading, 2000, false);
+  }, [setTagsLoading]);
 
   return (
-  <>
-    <Col xs={12} sm={12} md={12} lg={2} className={'pt-4'}>
-      <h2 className={'mb-4 text-decoration-underline'}>Tags</h2>
-      {tagObjs.map(tag=>{
-        return (
-          <p><Button variant="secondary" className={'btn-lg'}>{tag.name} <span className={'p-1 bg-dark text-light rounded-circle'}>{tag.postCount}</span></Button></p>
-        );
-      })}
-    </Col>
-  </>
+    <>
+      {tagsLoading && (
+        <div className={'mt-5 pt-5 text-center'}>
+          <Loader type="Rings" color="#00BFFF" height={80} width={80} />
+        </div>
+      )}
+      {!tagsLoading && (
+        <Col xs={12} sm={12} md={4} lg={4} className={'pt-4'}>
+          <h2 className={'mb-4 text-decoration-underline'}>Tags</h2>
+          {tagObjs.map(tag=>{
+            return (
+              <Button variant="success" className={'m-2'}>{tag.name} <span className={'p-1 bg-dark text-light rounded-circle'}>{tag.postCount}</span></Button>
+            );
+          })}
+        </Col>
+      )}
+    </>
   );
 }
 
