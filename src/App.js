@@ -6,14 +6,14 @@ import {
   Switch,
 } from 'react-router-dom';
 import routes from './Config/routes.js';
-import {AuthProvider} from './Context';
+import {AppContextProvider} from './Context';
 import Navigation from './Components/Navigation';
 
 
 function App() {
 
   return (
-    <AuthProvider>
+    <AppContextProvider>
       <Router>
         <Navigation />
         <Switch>
@@ -27,7 +27,7 @@ function App() {
           ))}
         </Switch>
       </Router>
-    </AuthProvider>
+    </AppContextProvider>
   );
 }
 

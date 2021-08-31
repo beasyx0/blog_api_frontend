@@ -1,14 +1,14 @@
 import React, {Fragment} from 'react';
 
-import { useAuthDispatch, useAuthState, clearMessages } from '../Context';
+import { useUserDispatch, useUserState, clearMessages } from '../Context';
 
 import Button from 'react-bootstrap/Button';
 
 
 function Messages(props) {
 
-  const userDetails = useAuthState()
-  const dispatch = useAuthDispatch()
+  const userDetails = useUserState()
+  const dispatch = useUserDispatch()
 
   const handleCloseMessages = async (e) => {
     let closeMessages = await clearMessages(dispatch);

@@ -20,7 +20,7 @@ let themeChoice = localStorage.getItem("theme_choice")
   ? localStorage.getItem("theme_choice")
   : "dark";
 
-export const initialState = {
+export const userInitialState = {
   user: "" || userDetails,
   refresh: "" || refreshToken,
   access: "" || accessToken,
@@ -31,16 +31,54 @@ export const initialState = {
   theme: "" || themeChoice
 }
 
-export const AuthReducer = (initialState, action) => {
+export const UserReducer = (userInitialState, action) => {
   switch (action.type) {
+    case "REQUEST_REGISTER":
+      return {
+        ...userInitialState,
+        loading: true
+      }
+    case "REGISTER_SUCCESS":
+      return {
+        ...userInitialState,
+        successMessage: action.payload.message,
+        errorMessage: null,
+        loading: false
+      }
+    case "REGISTER_ERROR":
+      return {
+        ...userInitialState,
+        errorMessage: action.error,
+        successMessage: null,
+        loading: false
+      }
+    case "REQUEST_VERIFY":
+      return {
+        ...userInitialState,
+        loading: true
+      }
+    case "VERIFY_SUCCESS":
+      return {
+        ...userInitialState,
+        successMessage: action.payload.message,
+        errorMessage: null,
+        loading: false
+      }
+    case "VERIFY_ERROR":
+      return {
+        ...userInitialState,
+        errorMessage: action.error,
+        successMessage: null,
+        loading: false
+      }
     case "REQUEST_USER":
       return {
-        ...initialState,
+        ...userInitialState,
         loading: true
       };
     case "USER_SUCCESS":
       return {
-        ...initialState,
+        ...userInitialState,
         user: action.payload.user,
         successMessage: action.payload.message,
         errorMessage: null,
@@ -48,19 +86,19 @@ export const AuthReducer = (initialState, action) => {
       };
     case "USER_ERROR":
       return {
-        ...initialState,
+        ...userInitialState,
         loading: false,
         errorMessage: action.error,
         successMessage: null,
       };
     case "REQUEST_LOGIN":
       return {
-        ...initialState,
+        ...userInitialState,
         loading: true
       };
     case "LOGIN_SUCCESS":
       return {
-        ...initialState,
+        ...userInitialState,
         refresh: action.payload.refresh,
         token: action.payload.access,
         successMessage: action.payload.message,
@@ -69,19 +107,19 @@ export const AuthReducer = (initialState, action) => {
       };
     case "LOGIN_ERROR":
       return {
-        ...initialState,
+        ...userInitialState,
         loading: false,
         errorMessage: action.error,
         successMessage: null,
       };
     case "REQUEST_LOGOUT":
       return {
-        ...initialState,
+        ...userInitialState,
         loading: true
       }
     case "LOGOUT_SUCCESS":
       return {
-        ...initialState,
+        ...userInitialState,
         user: "",
         refresh: "",
         access: "",
@@ -91,19 +129,19 @@ export const AuthReducer = (initialState, action) => {
       };
     case "LOGOUT_ERROR":
       return {
-        ...initialState,
+        ...userInitialState,
         loading: false,
         errorMessage: action.error,
         successMessage: null,
       };
     case "REQUEST_UPDATE_USER":
       return {
-        ...initialState,
+        ...userInitialState,
         loading: true
       };
     case "UPDATE_USER_SUCCESS":
       return {
-        ...initialState,
+        ...userInitialState,
         user: action.payload.user,
         successMessage: action.payload.message,
         errorMessage: null,
@@ -111,24 +149,24 @@ export const AuthReducer = (initialState, action) => {
       };
     case "UPDATE_USER_ERROR":
       return {
-        ...initialState,
+        ...userInitialState,
         errorMessage: action.error,
         successMessage: null,
         loading: false
       };
     case "SET_NEXT_URL":
       return {
-        ...initialState,
+        ...userInitialState,
         nextUrl: action.nextUrl
       };
     case "SWITCH_THEME":
       return {
-        ...initialState,
+        ...userInitialState,
         theme: action.themeChoice
       };
     case "CLEAR_MESSAGES":
       return {
-        ...initialState,
+        ...userInitialState,
         errorMessage: null,
         successMessage: null
       }

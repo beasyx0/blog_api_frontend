@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 
-import { useUserState, useUserDispatch, checkAndSetTheme } from '../../Context'
+import { useUserState, checkAndSetTheme } from '../../Context'
 import MyLoader from '../../Components/MyLoader';
-import LogoutForm from '../../Components/LogoutForm';
+import RegisterForm from '../../Components/RegisterForm';
 import Messages from '../../Components/Messages';
 
 import Container from 'react-bootstrap/Container';
@@ -11,16 +11,17 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 
-function Logout(props) {
+function Register(props) {
 
-  const history = useHistory();
-  const dispatch = useUserDispatch()
   const userDetails = useUserState()
+  const history = useHistory()
 
-  // if no user redirect to login
+  const nextUrl = userDetails.nextUrl
+
+  // if user redirect to next url or `/`
   useEffect(() => {
-    if (!userDetails.user) {
-      history.push('/login');
+    if (userDetails.user) {
+      history.push(nextUrl);
     }
   }, [userDetails, history]);
 
@@ -32,18 +33,18 @@ function Logout(props) {
   }, [userDetails, checkAndSetTheme]);
 
   return (
-    <Container className={'mt-5 pt-5'}>
+    <Container fluid className={'mt-5 pt-5'}>
       <MyLoader />
       <Messages />
       <Row>
-        {userDetails.loading === false && (
-          <Col xs={8} sm={6} md={4} lg={4} className={'m-auto'}>
-            <LogoutForm />
-          </Col>
-        )}
+        <Col xs={8} sm={6} md={4} lg={4} className={'m-auto'}>
+          {userDetails.loading === false && (
+            <RegisterForm />
+          )}
+        </Col>
       </Row>
     </Container>
-  )
+  );
 }
 
-export default Logout;
+export default Register;

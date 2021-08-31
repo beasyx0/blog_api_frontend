@@ -7,14 +7,15 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import { loginUser, getUser, useUserState, useUserDispatch } from '../Context'
+import { registerUser, loginUser, getUser, useUserState, useUserDispatch } from '../Context'
 
 
-function  LoginForm(props) {
+function  RegisterForm(props) {
 
   const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [message, setMessage] = useState('')
+  const [password2, setPassword2] = useState('')
 
   const dispatch = useUserDispatch()
   const userDetails = useUserState()
@@ -22,26 +23,24 @@ function  LoginForm(props) {
 
   const nextUrl = userDetails.nextUrl
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
       e.preventDefault()
-      let payload = {email, password}
+      let payload = {email, username, password, password2}
       try {
-        let response = await loginUser(dispatch, payload)
-        if (!response.access) {
+        let response = await registerUser(dispatch, payload)
+        if (!response.registered) {
           return
-        } else {
-          let userResponse = await getUser(dispatch)
-          history.push(nextUrl);
         }
+        history.push('/');
       } catch (error) {
-        setMessage(error.message);
+        console.log(error.message);
       }
     }
 
   return (
     <>
-      <h1 className={'text-center'}>Login</h1>
-      <Form onSubmit={handleLogin}>
+      <h1 className={'text-center'}>Register</h1>
+      <Form onSubmit={handleRegister}>
         <Form.Group className="mb-3" controlId="formEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -51,6 +50,17 @@ function  LoginForm(props) {
             value={email}
             required
             onChange={e => setEmail(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            className={`${userDetails.theme === 'dark' ? 'bg-dark text-light' : 'bg-light text-dark'}`}
+            name='username'
+            type='text'
+            value={username}
+            required
+            onChange={e => setUsername(e.target.value)}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formPassword">
@@ -64,13 +74,23 @@ function  LoginForm(props) {
             onChange={e => setPassword(e.target.value)}
           />
         </Form.Group>
+        <Form.Group className="mb-3" controlId="formPassword2">
+          <Form.Label>Password (again)</Form.Label>
+          <Form.Control
+            className={`${userDetails.theme === 'dark' ? 'bg-dark text-light' : 'bg-light text-dark'}`}
+            name='password'
+            type='password'
+            value={password2}
+            required
+            onChange={e => setPassword2(e.target.value)}
+          />
+        </Form.Group>
         <Button variant="primary" type="submit">
           Submit
         </Button>
-        
       </Form>
     </>
   );
 }
 
-export default LoginForm;
+export default RegisterForm;

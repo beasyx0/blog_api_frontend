@@ -7,15 +7,15 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import { LinkContainer } from 'react-router-bootstrap';
 
-import { useAuthState, useAuthDispatch, switchTheme} from '../Context'
+import { useUserState, useUserDispatch, switchTheme} from '../Context'
 
-import { FaUser, FaSignInAlt, FaSignOutAlt, FaSun, FaMoon } from 'react-icons/fa';
+import { FaUserPlus, FaUser, FaSignInAlt, FaSignOutAlt, FaSun, FaMoon } from 'react-icons/fa';
 
 
 function Navigation(props) {
 
-  const dispatch = useAuthDispatch()
-  const userDetails = useAuthState()
+  const dispatch = useUserDispatch()
+  const userDetails = useUserState()
 
   const handleThemeChange = async (e) => {
     e.preventDefault();
@@ -32,21 +32,26 @@ function Navigation(props) {
         </LinkContainer>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
+          <Nav className="pb-2 me-auto">
             {userDetails.user && (
-              <Fragment>
+              <>
                 <LinkContainer to="/dashboard">
                   <Nav.Link><FaUser /></Nav.Link>
                 </LinkContainer>
                 <LinkContainer to="/logout">
                   <Nav.Link><FaSignOutAlt /></Nav.Link>
                 </LinkContainer>
-              </Fragment>
+              </>
             )}
             {!userDetails.user && (
-              <LinkContainer to="/login">
-                <Nav.Link><FaSignInAlt /></Nav.Link>
-              </LinkContainer>
+              <>
+                <LinkContainer to="/register">
+                  <Nav.Link><FaUserPlus /></Nav.Link>
+                </LinkContainer>
+                <LinkContainer to="/login">
+                  <Nav.Link><FaSignInAlt /></Nav.Link>
+                </LinkContainer>
+              </>
             )}
           </Nav>
           <a href="#" onClick={handleThemeChange}>

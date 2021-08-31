@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { useAuthDispatch } from './index.js';
+// import { useAuthDispatch } from './index.js';
 
 const ROOT_URL = 'http://localhost:8000/api/v1/users';
 const USER = 'user';
@@ -17,6 +17,41 @@ const noAuthRequest = axios.create({
         'accept': 'application/json'
       },
   })
+export async function registerUser(dispatch, registerPayload) {
+  dispatch({ type: 'REQUEST_REGISTER' })
+  const registerBody = {
+    username: registerPayload.username, 
+    email: registerPayload.email, 
+    password: registerPayload.password, 
+    password2: registerPayload.password2
+  }
+  return noAuthRequest.post('/user/register/', registerBody)
+    .then((response)=> {
+      dispatch({ type: 'REGISTER_SUCCESS', payload: response.data })
+      return Promise.resolve(response.data);
+    }).catch((error)=>{
+      let errorString = '';
+      if (error.response.data.message){
+        for (const key in error.response.data.message){
+          errorString += (error.response.data.message[key][0] + " \n" );
+        }
+      }
+      dispatch({ type: 'REGISTER_ERROR', error: errorString })
+      return Promise.reject(error);
+    });
+}
+export async function verifyUser(dispatch, verificationPayload) {
+  dispatch({ type: "REQUEST_VERIFY" })
+  const verifyBody = {verification_code: verificationPayload.verificationCode};
+  return noAuthRequest.post('/user/verify/', verifyBody)
+    .then((response)=> {
+      dispatch({ type: "VERIFY_SUCCESS", payload: response.data })
+      return Promise.resolve(response.data);
+    }).catch((error)=> {
+      dispatch({ type: "VERIFY_ERROR", error: error.response.data.message })
+      return Promise.reject(error);
+    });
+}
 const refreshToken = () => {
   const refreshBody = { refresh: window.localStorage.getItem(REFRESH_TOKEN) }
   return noAuthRequest.post('/user/login/refresh/', refreshBody)

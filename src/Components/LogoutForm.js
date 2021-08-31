@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import {useHistory} from 'react-router-dom';
 
-import { logoutUser, useAuthDispatch } from '../Context'
+import { logoutUser, useUserDispatch } from '../Context'
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 function LogoutForm(props) {
 
   const history = useHistory();
-  const dispatch = useAuthDispatch()
+  const dispatch = useUserDispatch()
 
   const handleLogout = async (e) => {
     e.preventDefault()

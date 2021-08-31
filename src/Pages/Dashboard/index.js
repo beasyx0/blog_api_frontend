@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import {useHistory, useLocation} from 'react-router-dom';
 
-import { useAuthDispatch, useAuthState, checkAndSetTheme, checkAuthRedirect } from '../../Context'
+import { useUserDispatch, useUserState, checkAndSetTheme, checkAuthRedirect } from '../../Context'
 import Navigation from '../../Components/Navigation';
 import MyLoader from '../../Components/MyLoader';
 import MyDashboard from '../../Components/MyDashboard';
@@ -14,8 +14,8 @@ import Col from 'react-bootstrap/Col';
 
 function Dashboard(props) {
   
-  const userDetails = useAuthState()
-  const dispatch = useAuthDispatch()
+  const userDetails = useUserState()
+  const dispatch = useUserDispatch()
   const history = useHistory()
   const location = useLocation()
 

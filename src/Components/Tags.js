@@ -1,6 +1,6 @@
 import React, {useEffect, useState, Fragment} from 'react'
 
-import { useAuthDispatch, useAuthState, checkAndSetTheme, checkAuthRedirect } from '../Context'
+import { useAuthDispatch, useUserState, checkAndSetTheme, checkAuthRedirect } from '../Context'
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -11,7 +11,7 @@ import Loader from 'react-loader-spinner';
 
 function Tags(props) {
 
-  const userDetails = useAuthState()
+  const userDetails = useUserState()
 
   const [tagsLoading, setTagsLoading] = useState(true)
 
@@ -60,19 +60,19 @@ function Tags(props) {
   return (
     <>
       {tagsLoading && (
-        <div className={'mt-5 pt-5 text-center'}>
+        <div className={'pt-5'}>
           <Loader type="Rings" color="#00BFFF" height={80} width={80} />
         </div>
       )}
       {!tagsLoading && (
-        <Col xs={12} sm={12} md={4} lg={4} className={'pt-4'}>
+        <>
           <h2 className={'mb-4 text-decoration-underline'}>Tags</h2>
           {tagObjs.map(tag=>{
             return (
               <Button variant="success" className={'m-2'}>{tag.name} <span className={'p-1 bg-dark text-light rounded-circle'}>{tag.postCount}</span></Button>
             );
           })}
-        </Col>
+        </>
       )}
     </>
   );

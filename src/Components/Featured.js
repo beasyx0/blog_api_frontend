@@ -1,7 +1,7 @@
 import React, {useEffect, useState, Fragment} from 'react'
 import {useHistory, useLocation} from 'react-router-dom';
 
-import { useAuthDispatch, useAuthState, checkAndSetTheme, checkAuthRedirect } from '../Context'
+import { useAuthDispatch, useUserState, checkAndSetTheme, checkAuthRedirect, usePostState, usePostDispatch, getFeaturedPosts } from '../Context'
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -11,65 +11,54 @@ import Button from 'react-bootstrap/Button';
 
 import Loader from 'react-loader-spinner';
 
+import {FaReadme} from 'react-icons/fa';
+
 
 function Featured(props) {
 
-  const userDetails = useAuthState()
-  const [featuredLoading, setFeaturedLoading] = useState(true)
+  const userDetails = useUserState()
 
-  const featuredPostsFromServer = [
-    {
-      id: 1, 
-      date: '06-14-92, 07:22pm', 
-      pic: 'https://coincentral.com/wp-content/uploads/2018/04/bitcoin-mining.png', 
-      title: 'Lets build a blog application with Docker, Django and React!', 
-      content: 'This is some content right here. This is some content right here. This is some content right here. This is some content right here.'
-    },
-    {
-      id: 2, 
-      date: '06-14-92, 07:22pm', 
-      pic: 'https://coincentral.com/wp-content/uploads/2018/04/bitcoin-mining.png', 
-      title: 'Learn Javascript for loop, if else and while functions. Plus tests.', 
-      content: 'This is some content right here. This is some content right here. This is some content right here. This is some content right here.'
-    },
-    {
-      id: 3, 
-      date: '06-14-92, 07:22pm', 
-      pic: 'https://coincentral.com/wp-content/uploads/2018/04/bitcoin-mining.png', 
-      title: 'Build a Twitter clone with Python, Django, Django-Channels and Javascript.', 
-      content: 'This is some content right here. This is some content right here. This is some content right here. This is some content right here.'
-    },
-  ]
+  const postDetails = usePostState()
+  const postDispatch = usePostDispatch()
+
+  const [featuredPosts, setFeaturedPosts] = useState('')
 
   useEffect(() => {
-    setTimeout(setFeaturedLoading, 2000, false);
-  }, [setFeaturedLoading]);
+    (async () => {
+      let featuredPostResponse = await getFeaturedPosts(postDispatch);
+      setFeaturedPosts(featuredPostResponse.results);
+    })();
+  }, [postDispatch]);
 
   return (
     <>
-      {featuredLoading && (
-        <div className={'mt-5 pt-5 text-center'}>
+      {postDetails.featuredPostsLoading && (
+        <Col xs={12} sm={12} md={12} lg={4} className={'mt-5 text-center min-vh-50'}>
           <Loader type="Rings" color="#00BFFF" height={80} width={80} />
-        </div>
+        </Col>
       )}
-      {!featuredLoading && (
+      {!postDetails.featuredPostsLoading && (
           <>
           <h2 className={'mb-4 text-decoration-underline'}>Featured</h2>
-          {featuredPostsFromServer.map(post=>{
-            return (
-              <Col xs={12} sm={12} md={12} lg={3}>
-                <Card className={`mb-5 ${userDetails.theme === 'dark' ? 'bg-dark' : 'bg-secondary'} text-center text-light`}>
-                  <Card.Header>Featured</Card.Header>
-                  <Card.Body>
-                    <img src={post.pic} alt="main post pic" className={'mb-3 w-100 rounded'} />
-                    <Card.Title>{post.title}</Card.Title>
-                    <Button variant="primary">Read Post</Button>
-                  </Card.Body>
-                  <Card.Footer className="text-muted">posted: {post.date}</Card.Footer>
-                </Card>
-              </Col>
-            );
-          })}
+          {featuredPosts && (
+            <>
+              {featuredPosts.map(post=>{
+                return (
+                  <Col xs={12} sm={12} md={12} lg={4}>
+                    <Card className={`mb-5 ${userDetails.theme === 'dark' ? 'bg-dark' : 'bg-secondary'} text-center text-light`}>
+                      <Card.Header>Featured</Card.Header>
+                      <Card.Body>
+                        <img src={post.pic} alt="main post pic" className={'mb-3 w-100 rounded'} />
+                        <Card.Title>{post.title}</Card.Title>
+                        <a href="#"><FaReadme className={'h2 text-primary'} /></a>
+                      </Card.Body>
+                      <Card.Footer className="text-muted">posted: {post.created_at}</Card.Footer>
+                    </Card>
+                  </Col>
+                );
+              })}
+            </>
+          )}
         </>
       )}
     </>

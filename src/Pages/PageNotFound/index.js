@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 
-import { useAuthState, checkAndSetTheme } from '../../Context'
+import { useUserState, checkAndSetTheme } from '../../Context'
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -9,7 +9,7 @@ import Col from 'react-bootstrap/Col';
 
 function NotFound(props) {
 
-  const userDetails = useAuthState()
+  const userDetails = useUserState()
 
   useEffect(() => {
     (async () => {

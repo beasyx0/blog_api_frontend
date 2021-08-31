@@ -1,4 +1,23 @@
-import { loginUser, getUser, logoutUser, updateUser, switchTheme, checkAndSetTheme, checkAuthRedirect, clearMessages } from './actions';
-import { AuthProvider, useAuthDispatch, useAuthState } from './context';
+import { registerUser, verifyUser, loginUser, getUser, logoutUser, updateUser, switchTheme, checkAndSetTheme, checkAuthRedirect, clearMessages } from './User/actions';
+import { AppContextProvider, useUserState, useUserDispatch, usePostState, usePostDispatch } from './context';
+import {getNewestPosts, getFeaturedPosts } from './Posts/actions';
 
-export { AuthProvider, useAuthState, useAuthDispatch, loginUser, getUser, logoutUser, updateUser, switchTheme, checkAndSetTheme, checkAuthRedirect, clearMessages };
+export { 
+    AppContextProvider, 
+    useUserState, 
+    useUserDispatch, 
+    registerUser, 
+    verifyUser, 
+    loginUser, 
+    getUser, 
+    logoutUser, 
+    updateUser, 
+    switchTheme, 
+    checkAndSetTheme, 
+    checkAuthRedirect, 
+    clearMessages, 
+    usePostState,
+    usePostDispatch,
+    getNewestPosts,
+    getFeaturedPosts,
+};

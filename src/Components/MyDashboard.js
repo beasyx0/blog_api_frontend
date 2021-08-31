@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Fragment} from 'react'
 import {useHistory} from 'react-router-dom';
 
-import { useAuthDispatch, updateUser, useAuthState, checkAndSetTheme, checkAuthRedirect } from '../Context'
+import { useUserDispatch, updateUser, useUserState, checkAndSetTheme, checkAuthRedirect } from '../Context'
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -14,8 +14,8 @@ import {FaUserEdit} from 'react-icons/fa';
 
 function MyDashboard(props) {
   
-  const userDetails = useAuthState()
-  const dispatch = useAuthDispatch()
+  const userDetails = useUserState()
+  const dispatch = useUserDispatch()
   const [userName, setUserName] = useState(userDetails.user.username)
   const [name, setName] = useState(userDetails.user.name)
   const [isEditing, setIsEditing] = useState(false)

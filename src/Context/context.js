@@ -1,35 +1,63 @@
 import React, { createContext, useReducer, useContext } from "react";
-import {AuthReducer, initialState} from './reducer.js';
 
-const AuthStateContext = createContext();
-const AuthDispatchContext = createContext();
+import {UserReducer, userInitialState} from './User/reducer.js';
+import {PostReducer, postInitialState} from './Posts/reducer.js';
 
-export function useAuthState() {
-  const context = useContext(AuthStateContext);
+
+const UserStateContext = createContext();
+const UserDispatchContext = createContext();
+
+export function useUserState() {
+  const context = useContext(UserStateContext);
   if (context === undefined) {
-    throw new Error("useAuthState must be used within a AuthProvider");
+    throw new Error("useUserState must be used within a Provider");
   }
 
   return context;
 }
 
-export function useAuthDispatch() {
-  const context = useContext(AuthDispatchContext);
+export function useUserDispatch() {
+  const context = useContext(UserDispatchContext);
   if (context === undefined) {
-    throw new Error("useAuthDispatch must be used within a AuthProvider");
+    throw new Error("useUserDispatch must be used within a Provider");
   }
 
   return context;
 }
 
-export const AuthProvider = ({ children }) => {
-  const [user, dispatch] = useReducer(AuthReducer, initialState);
+const PostStateContext = createContext();
+const PostDispatchContext = createContext();
+
+export function usePostState() {
+  const context = useContext(PostStateContext);
+  if (context === undefined) {
+    throw new Error("usePostState must be used within a Provider");
+  }
+
+  return context;
+}
+
+export function usePostDispatch() {
+  const context = useContext(PostDispatchContext);
+  if (context === undefined) {
+    throw new Error("usePostDispatch must be used within a Provider")
+  }
+  return context;
+}
+
+export const AppContextProvider = ({ children }) => {
+  const [userState, userDispatch] = useReducer(UserReducer, userInitialState);
+  const [postState, postDispatch] = useReducer(PostReducer, postInitialState);
 
   return (
-    <AuthStateContext.Provider value={user}>
-      <AuthDispatchContext.Provider value={dispatch}>
-        {children}
-      </AuthDispatchContext.Provider>
-    </AuthStateContext.Provider>
+    <UserStateContext.Provider value={userState}>
+      <UserDispatchContext.Provider value={userDispatch}>
+        <PostStateContext.Provider value={postState}>
+          <PostDispatchContext.Provider value={postDispatch}>
+            {children}
+          </PostDispatchContext.Provider>
+        </PostStateContext.Provider>
+      </UserDispatchContext.Provider>
+    </UserStateContext.Provider>
   );
 };

@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 
 import { useUserState, checkAndSetTheme } from '../../Context'
 import MyLoader from '../../Components/MyLoader';
-import LoginForm from '../../Components/LoginForm';
+import VerifyForm from '../../Components/VerifyForm';
 import Messages from '../../Components/Messages';
 
 import Container from 'react-bootstrap/Container';
@@ -11,12 +11,14 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 
-function Login(props) {
+function Verify(props) {
 
   const userDetails = useUserState()
   const history = useHistory()
 
   const nextUrl = userDetails.nextUrl
+
+  const {verificationCode} = useParams()
 
   // if user redirect to next url or `/`
   useEffect(() => {
@@ -39,7 +41,7 @@ function Login(props) {
       <Row>
         <Col xs={8} sm={6} md={4} lg={4} className={'m-auto'}>
           {userDetails.loading === false && (
-            <LoginForm />
+            <VerifyForm verificationCode={verificationCode} />
           )}
         </Col>
       </Row>
@@ -47,4 +49,4 @@ function Login(props) {
   );
 }
 
-export default Login;
+export default Verify;

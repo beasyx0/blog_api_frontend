@@ -1,13 +1,13 @@
 import React, {Fragment} from 'react';
 import {useHistory, useLocation} from 'react-router-dom';
 
-import { useAuthState } from '../Context'
+import { useUserState } from '../Context'
 
 import Loader from 'react-loader-spinner';
 
 
 function MyLoader(props) {
-  const userDetails = useAuthState()
+  const userDetails = useUserState()
 
   return (
       <>
